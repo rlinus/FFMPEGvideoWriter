@@ -102,7 +102,7 @@ bool FFMPEGvideoWriter::open(const std::string& filename, double fps, cv::Size f
     constexpr auto cbuf_size = 200;
     char cbuf[cbuf_size];
 
-    if (isColor)
+    if (~isColor)
     {
         inputPixelFormat = AV_PIX_FMT_GRAY8;
     }
@@ -256,7 +256,7 @@ bool FFMPEGvideoWriter::open(const std::string& filename, double fps, cv::Size f
     }
 
     /* init pixel format converter */
-    sws_context = sws_getCachedContext(sws_context, width, height, AV_PIX_FMT_RGB24, width, height, pixelFormat, 0, 0, 0, 0);
+    sws_context = sws_getCachedContext(sws_context, width, height, inputPixelFormat, width, height, pixelFormat, 0, 0, 0, 0);
     if (!sws_context) {
         throw std::runtime_error("Could not initialize the conversion context");
     }
